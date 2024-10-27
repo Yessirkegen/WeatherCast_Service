@@ -19,5 +19,5 @@ func main() {
 
 	r.GET("/weather", weatherHandler.GetWeather)
 
-	r.Run(":8080")
+	r.Run(":8085")
 }
