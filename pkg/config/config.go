@@ -1,4 +1,4 @@
-package configs
+package config
 
 import (
 	"log"
@@ -9,11 +9,11 @@ import (
 )
 
 type Config struct {
-	APIkey            string
+	APIKey            string
 	RedisHost         string
 	RedisPort         string
-	CacheTTl          int
-	WeatherApiBaseUrl string
+	CacheTTL          int
+	WeatherAPIBaseURL string
 }
 
 var (
@@ -27,11 +27,11 @@ func GetConfig() *Config {
 			log.Fatal("Error loading .env file")
 		}
 		instance = &Config{
-			APIkey:            os.Getenv("API_KEY"),
+			APIKey:            os.Getenv("API_KEY"),
 			RedisHost:         os.Getenv("REDIS_HOST"),
 			RedisPort:         os.Getenv("REDIS_PORT"),
-			CacheTTl:          600,
-			WeatherApiBaseUrl: os.Getenv("WEATHER_API_BASE_URL"),
+			CacheTTL:          600, // значение по умолчанию
+			WeatherAPIBaseURL: os.Getenv("WEATHER_API_BASE_URL"),
 		}
 	})
 	return instance
