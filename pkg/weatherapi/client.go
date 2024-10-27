@@ -44,7 +44,7 @@ func NewWeatherClient() WeatherClient {
 // GetWeather получает данные о погоде для указанного города
 func (c *weatherClient) GetWeather(city string) (WeatherResponse, error) {
 	// Формируем URL для запроса
-	url := fmt.Sprintf("%s/weather?q=%s&appid=%s", c.baseURL, city, c.apiKey) // Исправлено: добавлен '&' перед 'appid'
+	url := fmt.Sprintf("%s/weather?q=%s&appid=%s&units=metric", c.baseURL, city, c.apiKey) // Исправлено: добавлен '&' перед 'appid'
 	resp, err := http.Get(url)
 	if err != nil {
 		return WeatherResponse{}, err
