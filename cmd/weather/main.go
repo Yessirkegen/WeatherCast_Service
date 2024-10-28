@@ -17,7 +17,9 @@ func main() {
 	weatherService := services.NewWeatherService(cache, weatherClient)
 	weatherHandler := handlers.NewWeatherHandler(weatherService)
 
-	r.GET("/weather", weatherHandler.GetWeather)
-
-	r.Run(":8085")
+	/*r.GET("/weather", weatherHandler.GetWeather)
+	r.GET("/forecast", weatherHandler.GetForecast) // Новый маршрут
+	r.GET("/aqi", weatherHandler.GetAQI)    */ // Новый маршрут
+	r.GET("/direct", weatherHandler.GetGeo)
+	r.Run(":8082")
 }
