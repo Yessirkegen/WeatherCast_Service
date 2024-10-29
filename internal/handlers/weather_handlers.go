@@ -15,6 +15,23 @@ func NewWeatherHandler(service *services.WeatherService) *WeatherHandler {
 	return &WeatherHandler{service: service}
 }
 
+func (h *WeatherHandler) GetWeatherData(c *gin.Context) {
+	city := c.Query("city")
+	if city == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "параметр города обязателен"})
+		return
+	}
+
+	// Используем фасадный метод для получения всех данных
+	responseData, err := h.service.GetCompleteWeatherData(city)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, responseData)
+}
+
 func (h *WeatherHandler) GetGeo(c *gin.Context) {
 	city := c.Query("city")
 	if city == "" {
@@ -32,6 +49,7 @@ func (h *WeatherHandler) GetGeo(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"geo": geo})
 }
 
+/*
 func (h *WeatherHandler) GetWeather(c *gin.Context) {
 	city := c.Query("city")
 	if city == "" {
@@ -69,10 +87,11 @@ func (h *WeatherHandler) GetAQI(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "City is required"})
 		return
 	}
-	aqi, err := h.service.GetAQI(city)
+	aqi, err := h.service.GetAQI()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, aqi)
 }
+*/

@@ -71,30 +71,22 @@ type ForecastResponse struct {
 }
 
 type AQIResponse struct {
-	Coord []float64 `json:"coord"`
-	List  []struct {
-		Dt   int64 `json:"dt"`
+	Coord struct {
+		Lat float64 `json:"lat"`
+		Lon float64 `json:"lon"`
+	} `json:"coord"`
+	List []struct {
 		Main struct {
-			AQI int `json:"aqi"`
+			Aqi int `json:"aqi"`
 		} `json:"main"`
-		Components struct {
-			CO    float64 `json:"co"`
-			NO    float64 `json:"no"`
-			NO2   float64 `json:"no2"`
-			O3    float64 `json:"o3"`
-			SO2   float64 `json:"so2"`
-			PM2_5 float64 `json:"pm2_5"`
-			PM10  float64 `json:"pm10"`
-			NH3   float64 `json:"nh3"`
-		} `json:"components"`
 	} `json:"list"`
 }
 
 type WeatherClient interface {
 	GetGeo(city string) (GeoResponse, error)
 	GetWeather(city string) (WeatherResponse, error)
-	GetForecast(city string) (ForecastResponse, error) // Новый метод
-	GetAQI(city string) (AQIResponse, error)           // Новый метод
+	GetForecast(city string) (ForecastResponse, error)          // Новый метод
+	GetAQI(geolat float64, geoLon float64) (AQIResponse, error) // Новый метод
 }
 
 // weatherClient структура для работы с погодным API
@@ -176,8 +168,8 @@ func (c *weatherClient) GetForecast(city string) (ForecastResponse, error) {
 	return forecastResp, nil
 }
 
-func (c *weatherClient) GetAQI(city string) (AQIResponse, error) {
-	url := fmt.Sprintf("%s/air_pollution?q=%s&appid=%s", c.baseWeatherURL, city, c.apiKey)
+func (c *weatherClient) GetAQI(geoLat float64, geoLon float64) (AQIResponse, error) {
+	url := fmt.Sprintf("%s/air_pollution?lat=%f&lon=%f&appid=%s", c.baseWeatherURL, geoLat, geoLon, c.apiKey)
 	resp, err := http.Get(url)
 	if err != nil {
 		return AQIResponse{}, err

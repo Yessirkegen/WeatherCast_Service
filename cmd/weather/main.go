@@ -3,8 +3,8 @@ package main
 import (
 	"weather-service/internal/handlers"
 	"weather-service/internal/services"
+	"weather-service/internal/weatherapi"
 	"weather-service/pkg/cache"
-	"weather-service/pkg/weatherapi"
 
 	"github.com/gin-gonic/gin"
 )
@@ -19,7 +19,7 @@ func main() {
 
 	/*r.GET("/weather", weatherHandler.GetWeather)
 	r.GET("/forecast", weatherHandler.GetForecast) // Новый маршрут
-	r.GET("/aqi", weatherHandler.GetAQI)    */ // Новый маршрут
-	r.GET("/direct", weatherHandler.GetGeo)
-	r.Run(":8082")
+	r.GET("/aqi", weatherHandler.GetAQI)    */            // Новый маршрут
+	r.GET("/weather-data", weatherHandler.GetWeatherData) // Новый маршрут для получения данных о погоде
+	r.Run(":8061")
 }
